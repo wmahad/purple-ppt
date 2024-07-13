@@ -1,11 +1,11 @@
 import { Form, NavLink } from "@remix-run/react";
 import { ReactNode } from "react";
 import { UserProvider } from "~/hooks/useUser";
-import { AuthedRouteData } from "~/routes/__authed";
 import { Button } from "../ui/button";
 import ThemeChanger from "../ThemeChanger";
 import useIsLoading from "~/hooks/useIsLoading";
 import { Toaster } from "../ui/toaster";
+import { AuthedRouteData } from "~/routes/_public+/_layout";
 
 function InnerLoggedInLayout({
   user,
@@ -24,7 +24,7 @@ function InnerLoggedInLayout({
         <ul className="flex flex-row space-x-4 items-center">
           <li>
             <NavLink
-              to="/notes"
+              to="/"
               prefetch="intent"
               className={({ isActive }) => (isActive ? "underline" : "")}
             >

@@ -53,16 +53,6 @@ export default function Profile() {
         />
 
         <InputField
-          label="Name"
-          name="name"
-          type="text"
-          required
-          placeholder="How you would like to be called"
-          defaultValue={user.name}
-          errors={actionData?.errors}
-        />
-
-        <InputField
           label="Current password"
           name="currentPassword"
           type="password"

@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from "react";
-import { AuthedRouteData } from "~/routes/__authed";
+import { AuthedRouteData } from "~/routes/_public+/_layout";
 
 export const UserContext = createContext<AuthedRouteData["user"] | undefined>(
   undefined,

@@ -45,7 +45,7 @@ export const action = unstable_defineAction(async ({ request }) => {
       break;
   }
 
-  return redirect("/notes");
+  return redirect("/");
 });
 
 export const meta: MetaFunction = () => [

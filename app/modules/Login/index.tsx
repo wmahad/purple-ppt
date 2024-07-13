@@ -4,7 +4,7 @@ import { Card, CardTitle } from "~/components/ui/card";
 import { CheckboxField } from "~/components/ui/checkbox-field";
 import { InputField } from "~/components/ui/input-field";
 import useIsLoading from "~/hooks/useIsLoading";
-import { LoginActionType } from "~/routes/__unauthed.login";
+import { LoginActionType } from "~/routes/_auth+/login";
 
 export default function Login() {
   const actionData = useActionData<LoginActionType>();

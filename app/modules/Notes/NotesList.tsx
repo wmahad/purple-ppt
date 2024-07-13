@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { Card } from "~/components/ui/card";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import useDates from "~/hooks/useDates";
-import { NotesRouteData } from "~/routes/__authed.notes";
+import { NotesRouteData } from "~/routes/_public+";
 import { cn } from "~/utils";
 
 function useNotesScoller(notes: unknown[]) {
