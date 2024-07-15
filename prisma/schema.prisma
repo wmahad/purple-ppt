@@ -17,14 +17,15 @@ model User {
 }
 
 model Presentation {
-  id        String    @id @default(cuid())
-  title     String    @unique
-  userId    String
-  user      User      @relation(fields: [userId], references: [id])
-  pages     Page[]
-  versions  Version[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String    @id @default(cuid())
+  title       String    @unique
+  description String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  pages       Page[]
+  versions    Version[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Page {

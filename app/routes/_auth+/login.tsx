@@ -1,20 +1,13 @@
-import type { MetaFunction } from "@remix-run/node";
-import {
-  redirect,
-  unstable_defineAction,
-  unstable_defineLoader,
-} from "@remix-run/node";
+import { MetaFunction, unstable_defineAction } from "@remix-run/node";
 import { login } from "~/data/users/login.server";
 import Login from "~/modules/Login";
-import { authenticate, userFromRequest } from "~/web/auth.server";
+import { authenticate } from "~/web/auth.server";
 
-export const loader = unstable_defineLoader(async ({ request }) => {
-  const user = await userFromRequest(request);
-
-  if (user) return redirect("/notes");
-
-  return null;
-});
+// export const loader: LoaderFunction = async ({ request }) => {
+//   const user = await userFromRequest(request);
+//   if (user) return redirect("/");
+//   return null;
+// };
 
 export type LoginActionType = typeof action;
 

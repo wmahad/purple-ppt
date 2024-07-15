@@ -1,3 +1,15 @@
+import {
+  Anchor,
+  Checkbox,
+  Container,
+  Group,
+  Paper,
+  Title,
+  Text,
+  TextInput,
+  PasswordInput,
+  Button,
+} from "@mantine/core";
 import type { MetaFunction } from "@remix-run/node";
 import {
   redirect,
@@ -5,10 +17,6 @@ import {
   unstable_defineLoader,
 } from "@remix-run/node";
 import { Form, Link, useActionData } from "@remix-run/react";
-import { Button } from "~/components/ui/button";
-import { Card, CardTitle } from "~/components/ui/card";
-import { CheckboxField } from "~/components/ui/checkbox-field";
-import { InputField } from "~/components/ui/input-field";
 import { createUser } from "~/data/users.server";
 import { GenericDataError } from "~/data/utils/types";
 import useIsLoading from "~/hooks/useIsLoading";
@@ -31,6 +39,8 @@ export const action = unstable_defineAction(async ({ request }) => {
   return authenticate(result.data, { rememberMe: result.data.rememberMe });
 });
 
+import classes from "./Signup.module.css";
+
 export const meta: MetaFunction = () => [
   {
     title: "Sign up",
@@ -42,51 +52,52 @@ export default function SignUp() {
   const isLoading = useIsLoading();
 
   return (
-    <Card className="max-w-lg w-full mx-auto flex items-center justify-center">
-      <Form
-        method="post"
-        action="/signup"
-        className="p-10 w-full flex flex-col space-y-4"
-      >
-        <CardTitle className="mb-8">Please sign up</CardTitle>
+    <Container h="100%" size={420} my={40}>
+      <Title ta="center" className={classes.title}>
+        Please sign up
+      </Title>
 
-        <InputField
-          label="Email"
-          name="email"
-          type="text"
-          required
-          placeholder="hello@email.com"
-          errors={errors}
-        />
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <Form method="post" action="/signup">
+          <TextInput
+            name="email"
+            label="Email"
+            placeholder="you@mantine.dev"
+            required
+            error={errors?.email}
+          />
 
-        <InputField
-          label="Password"
-          name="password"
-          type="password"
-          placeholder="**************"
-          required
-          errors={errors}
-        />
+          <PasswordInput
+            label="Password"
+            name="password"
+            placeholder="Your password"
+            required
+            error={errors?.password}
+            mt="md"
+          />
+          <PasswordInput
+            label="Confirm Password"
+            name="passwordConfirmation"
+            placeholder="Your password"
+            required
+            error={errors?.password}
+            mt="md"
+          />
+          <Group justify="space-between" mt="lg">
+            <Checkbox label="Remember me" name="rememberMe" />
+          </Group>
+          <Button type="submit" loading={isLoading} fullWidth mt="xl">
+            Sign up
+          </Button>
+        </Form>
 
-        <InputField
-          label="Confirm password"
-          name="passwordConfirmation"
-          type="password"
-          placeholder="**************"
-          required
-          errors={errors}
-        />
-
-        <CheckboxField name="rememberMe" label="Remember me" className="pb-4" />
-
-        <Button type="submit" className="mt-8" isLoading={isLoading}>
-          Sign up
-        </Button>
-
-        <Link to="/login" className="link text-center">
-          Or login instead
-        </Link>
-      </Form>
-    </Card>
+        <Text c="dimmed" size="sm" ta="center" mt={10}>
+          Have an account already?{" "}
+          <Anchor size="sm" component="button">
+            <Link to="/login">Login instead</Link>
+          </Anchor>
+        </Text>
+      </Paper>
+    </Container>
   );
 }

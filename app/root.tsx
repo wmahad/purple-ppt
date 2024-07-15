@@ -1,3 +1,5 @@
+import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import "./root.css";
 
 import { unstable_defineLoader } from "@remix-run/node";
@@ -13,8 +15,9 @@ import React, { useEffect } from "react";
 import ErrorPage from "./components/Error500Page";
 import { GLOBAL_ENV } from "./env/globalEnv";
 import { useRootLoaderData } from "./hooks/useRootLoaderData";
-import { cn } from "./utils";
 import { getCurrentTheme } from "./web/theme.server";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 
 // Load the locale from the Accept-Language header to later
 // inject it on the app's context
@@ -67,7 +70,7 @@ export default function App() {
   }, [currentTheme]);
 
   return (
-    <Document className={currentTheme}>
+    <Document>
       <script
         // Set the variables for our `envVars` modules
         dangerouslySetInnerHTML={{
@@ -98,27 +101,26 @@ export function ErrorBoundary() {
 function Document({
   children,
   title,
-  className,
 }: {
   children: React.ReactNode;
   title?: string;
-  className?: string;
 }) {
   return (
     <React.StrictMode>
-      <html
-        className={cn(className, "bg-background text-foreground")}
-        lang="en"
-      >
+      <html lang="en">
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width,initial-scale=1" />
           {title ? <title>{title}</title> : null}
           <Meta />
           <Links />
+          <ColorSchemeScript />
         </head>
         <body>
-          {children}
+          <MantineProvider>
+            {children}
+            <Notifications />
+          </MantineProvider>
           <ScrollRestoration />
           <Scripts />
         </body>

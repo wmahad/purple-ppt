@@ -1,10 +1,22 @@
+import {
+  TextInput,
+  PasswordInput,
+  Checkbox,
+  Anchor,
+  Paper,
+  Title,
+  Text,
+  Container,
+  Group,
+  Button,
+} from "@mantine/core";
+
 import { Form, Link, useActionData, useLocation } from "@remix-run/react";
-import { Button } from "~/components/ui/button";
-import { Card, CardTitle } from "~/components/ui/card";
-import { CheckboxField } from "~/components/ui/checkbox-field";
-import { InputField } from "~/components/ui/input-field";
+
 import useIsLoading from "~/hooks/useIsLoading";
 import { LoginActionType } from "~/routes/_auth+/login";
+
+import classes from "./Login.module.css";
 
 export default function Login() {
   const actionData = useActionData<LoginActionType>();
@@ -12,50 +24,50 @@ export default function Login() {
   const location = useLocation();
 
   return (
-    <Card className="max-w-lg w-full mx-auto flex items-center justify-center">
-      <Form
-        method="post"
-        action="/login"
-        className="p-10 w-full flex flex-col space-y-4"
-      >
-        <CardTitle className="mb-8">Please login</CardTitle>
+    <Container h="100%" size={420} my={40}>
+      <Title ta="center" className={classes.title}>
+        Welcome back!
+      </Title>
 
-        <InputField
-          label="Email"
-          name="email"
-          type="text"
-          required
-          placeholder="hello@email.com"
-          errors={actionData?.errors}
-          defaultValue={actionData?.original?.email}
-        />
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <Form method="post" action="/login">
+          <TextInput
+            name="email"
+            label="Email"
+            placeholder="you@mantine.dev"
+            required
+            error={actionData?.errors?.email}
+            defaultValue={actionData?.original?.email}
+          />
+          <input
+            name="redirectUrl"
+            type="hidden"
+            defaultValue={location.pathname + location.search}
+          />
+          <PasswordInput
+            label="Password"
+            name="password"
+            placeholder="Your password"
+            required
+            error={actionData?.errors?.password}
+            defaultValue={actionData?.original?.password}
+            mt="md"
+          />
+          <Group justify="space-between" mt="lg">
+            <Checkbox label="Remember me" name="rememberMe" />
+          </Group>
+          <Button type="submit" loading={isLoading} fullWidth mt="xl">
+            Sign in
+          </Button>
+        </Form>
 
-        <InputField
-          label="Password"
-          name="password"
-          type="password"
-          placeholder="**************"
-          required
-          errors={actionData?.errors}
-          defaultValue={actionData?.original?.password}
-        />
-
-        <CheckboxField name="rememberMe" label="Remember me" className="pb-4" />
-
-        <input
-          name="redirectUrl"
-          type="hidden"
-          defaultValue={location.pathname + location.search}
-        />
-
-        <Button type="submit" isLoading={isLoading}>
-          Login
-        </Button>
-
-        <Link to="/signup" className="link text-center">
-          Or sign up instead
-        </Link>
-      </Form>
-    </Card>
+        <Text c="dimmed" size="sm" ta="center" mt={10}>
+          Do not have an account yet?{" "}
+          <Anchor size="sm" component="button">
+            <Link to="/signup">Create account</Link>
+          </Anchor>
+        </Text>
+      </Paper>
+    </Container>
   );
 }

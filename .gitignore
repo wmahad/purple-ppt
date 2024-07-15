@@ -9,6 +9,7 @@ api/*
 test-results/
 playwright-report/
 .eslintcache
+vite.config.ts.time*
 
 !.env.sample
 !.env.*.sample

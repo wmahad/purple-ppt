@@ -20,19 +20,19 @@ export async function login(
 ): Promise<DataResult<User & { rememberMe?: boolean }>> {
   const parsedSchema = loginSchema.safeParse(params);
 
-  if (!parsedSchema.success)
+  if (!parsedSchema.success) {
     return { data: null, errors: formatZodErrors(parsedSchema.error) };
+  }
 
   const { email, password, rememberMe } = parsedSchema.data;
-
   const user = await prisma.user.findUnique({ where: { email } });
 
-  if (!user)
+  if (!user) {
     return { data: null, errors: { email: "Email/Password combo not found" } };
+  }
 
   if (await verifyPassword(user.password, password)) {
     user.password = "";
-
     return { data: { ...user, rememberMe }, errors: null };
   }
 
