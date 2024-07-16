@@ -1,4 +1,11 @@
-import { Form, NavLink, useMatches } from "@remix-run/react";
+import {
+  Form,
+  NavLink,
+  useLocation,
+  useMatches,
+  useNavigate,
+  useParams,
+} from "@remix-run/react";
 import useIsLoading from "~/hooks/useIsLoading";
 import { Button, rem, Group, Menu, Title, Avatar } from "@mantine/core";
 import { IconEye, IconLogout } from "@tabler/icons-react";
@@ -9,10 +16,15 @@ export function AppHeader() {
   const user = useUser();
   const isLoading = useIsLoading({ action: "/logout" });
   const matches = useMatches();
+  const params = useParams();
+  const navigate = useNavigate();
+  const currentRoute = useLocation();
 
   const showCreatePresentationButton = matches.every(
     (match) => match.pathname === "/",
   );
+
+  const isPreviewPage = currentRoute.pathname.includes("preview");
 
   return (
     <Group h="100%" px="md">
@@ -22,7 +34,16 @@ export function AppHeader() {
         </NavLink>
       </Title>
       <Group justify="end" style={{ flex: 1 }}>
-        {showCreatePresentationButton && <CreatePresentationForm />}
+        {showCreatePresentationButton ? (
+          <CreatePresentationForm />
+        ) : isPreviewPage ? (
+          // @ts-expect-error, navigate actually takes in a number
+          <Button onClick={() => navigate(-1, { replace: true })}>Back</Button>
+        ) : (
+          <NavLink to={`/${params.presentationId}/preview`}>
+            <Button>Preview</Button>
+          </NavLink>
+        )}
 
         <Menu position="bottom-end" width={200} shadow="md">
           <Menu.Target>

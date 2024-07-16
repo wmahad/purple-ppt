@@ -1,5 +1,6 @@
 import { Presentation as DBPresentation } from "@prisma/client";
 import prisma from "./utils/prisma.server";
+import { createVersion } from "./versions.server";
 
 type Page = {
   id: string;
@@ -28,7 +29,7 @@ export async function listPresentations(
 
   return prisma.presentation.findMany({
     where: { userId },
-    orderBy: { createdAt: "asc" },
+    orderBy: { createdAt: "desc" },
     select,
   });
 }
@@ -64,18 +65,27 @@ export async function deletePresentation(
     },
   });
 
+  const deleteVersions = prisma.version.deleteMany({
+    where: { presentationId: id },
+  });
+
   const deletePresentation = prisma.presentation.delete({
     where: { id, userId: userId },
   });
 
-  await prisma.$transaction([deleteContents, deletePages, deletePresentation]);
+  await prisma.$transaction([
+    deleteContents,
+    deletePages,
+    deleteVersions,
+    deletePresentation,
+  ]);
 }
 
 export async function createPresentation(
   userId: string,
   presentationParams: { title: string; description: string },
 ) {
-  return prisma.presentation.create({
+  const presentation = await prisma.presentation.create({
     data: {
       ...presentationParams,
       user: { connect: { id: userId } },
@@ -85,4 +95,8 @@ export async function createPresentation(
     },
     select,
   });
+
+  await createVersion(presentation.id);
+
+  return presentation;
 }

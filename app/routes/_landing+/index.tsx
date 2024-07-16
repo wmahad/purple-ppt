@@ -9,6 +9,7 @@ import {
 } from "~/data/presentations.server";
 import { userIdFromRequest } from "~/web/auth.server";
 import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
+import { EmptyState } from "~/components/EmptyState";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await userIdFromRequest(request);
@@ -47,11 +48,13 @@ export const meta: MetaFunction = () => [
 
 export default function PresentationsPage() {
   const { presentations } = useLoaderData<typeof loader>();
-  return (
+  return presentations.length ? (
     <SimpleGrid cols={4}>
       {presentations.map((presentation) => (
         <PresentationItem key={presentation.id} presentation={presentation} />
       ))}
     </SimpleGrid>
+  ) : (
+    <EmptyState />
   );
 }

@@ -19,10 +19,10 @@ export default function ServerError() {
 
   return (
     <div className={classes.root}>
-      <Container>
+      <Container className={classes.container}>
         <div className={classes.label}>{errorCode}</div>
         <Title className={classes.title}>Something bad just happened...</Title>
-        <Text size="lg" ta="center" className={classes.description}>
+        <Text size="lg" className={classes.description}>
           {message}
         </Text>
         <Group justify="center">
