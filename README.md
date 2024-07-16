@@ -35,13 +35,21 @@ Set up the database, make sure you have [Docker](https://www.docker.com/) instal
 npm run docker:db
 ```
 
+To set up the database tables, run the following command:
+
+```sh
+npm run db:migrate:deploy
+```
+
+This will execute prisma migrate deploy, which applies all pending migrations to your database.
+
 The app comes with a dummy user, you can run the below command to seed the db. This will create a user with the following creds:
 
 - `email: admin@ppt.io`
 - `password: password`
 
 ```sh
-npm run docker:seed
+npm run db:seed
 ```
 
 Afterward, start the development server like so:
