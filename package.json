@@ -36,7 +36,7 @@
   "dependencies": {
     "@blocknote/core": "^0.14.5",
     "@blocknote/mantine": "^0.14.6",
-    "@blocknote/react": "^0.14.6",
+    "@blocknote/react": "^0.15.0",
     "@mantine/carousel": "^7.11.2",
     "@mantine/core": "^7.11.2",
     "@mantine/hooks": "^7.11.2",
