@@ -84,7 +84,7 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
-    "@vitest/ui": "^1.6.0",
+    "@vitest/ui": "^2.0.5",
     "autoprefixer": "^10.4.19",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
